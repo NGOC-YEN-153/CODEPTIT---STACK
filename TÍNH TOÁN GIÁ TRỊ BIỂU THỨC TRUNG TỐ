@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+string s;
+int ut(char c){
+	if(c == '+')return 1;
+	else if(c == '-')return 1;
+	else if(c == '*' || c == '/')return 2;
+	return 0;
+}
+ll calc(ll a, ll b , char c){
+	if( c == '+')return a+ b;
+	else if( c == '-')return a - b;
+	else if( c == '*') return a * b;
+	return a /b;
+}
+void solve(){
+    cin >> s;
+    stack<char> st;
+    stack<ll>ans;
+    for(int i =0 ; i< s.size() ; i++){
+    	if(s[i] == '(')st.push(s[i]);
+    	else if(s[i] ==')'){
+    		while(st.size() && st.top() != '('){
+    			ll b = ans.top();ans.pop();
+    			ll a = ans.top() ; ans.pop();
+    			ans.push(calc(a,b,st.top()));
+    			st.pop();
+			}
+			st.pop();
+		}
+		else if(isdigit(s[i])){
+			string res;
+			for(int j= i ; j< s.size() ; j++){
+				if(isdigit(s[j]))res+=s[j] , i = j;
+				else break;
+			}
+			ans.push(stoll(res));
+		}
+		else if(!st.size())st.push(s[i]);
+		else if(ut(s[i]) <= ut(st.top())){
+			while(st.size() && ut(s[i]) <= ut(st.top())){
+				ll b = ans.top();ans.pop();
+    			ll a = ans.top() ; ans.pop();
+    			ans.push(calc(a,b,st.top()));
+    			st.pop();
+			}
+    		st.push(s[i]);
+		}
+		else st.push(s[i]);
+	}
+	while(st.size()){
+		ll b = ans.top();ans.pop();
+    	ll a = ans.top() ; ans.pop();
+    	ans.push(calc(a,b,st.top()));
+    	st.pop();
+	}
+	cout<<ans.top()<<endl;
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    int t = 1;
+    cin >> t;
+    while(t--)solve();
+}
