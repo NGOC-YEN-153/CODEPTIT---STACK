@@ -1,0 +1,38 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+#define ll long long
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    int t;cin>>t;
+	while(t--) {
+    int n;cin>>n;
+    int a[n];
+    for(int i =0 ; i< n; i++)cin >>a[i];
+    stack<int> st;
+    int ans=0;
+    for(int i=0;i<n;i++)
+    {
+    	if(st.size()) 
+    	{
+    		while(st.size()&& a[i]<a[st.top()])
+    		{
+    			auto x=st.top();st.pop();
+    			if(st.size() && (i-st.top()-1)>= a[x] ) ans=max(ans , a[x]);
+    			else if( !st.size() &&  i>= a[x] )ans=max(ans,a[x]);
+			}
+		}
+    	st.push(i);
+	}
+	while(st.size())
+	{
+		auto x=st.top();st.pop();
+    	if(st.size() && (n-st.top()-1)>= a[x] ) ans=max(ans , a[x]);
+    	else if( !st.size() &&  n >= a[x] )ans=max(ans,a[x]);
+	}
+	cout<<ans<<"\n";
+	}
+    return 0;
+}
