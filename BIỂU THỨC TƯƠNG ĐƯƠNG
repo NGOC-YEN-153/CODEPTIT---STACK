@@ -1,0 +1,32 @@
+#include <iostream>
+#include<stack>
+#include<string>
+using namespace std;
+inline void solve(){
+	string s;
+	cin >>s ;
+	stack<int> st;
+	for(int i =0 ; i< s.size(); i++){
+		if(s[i] =='(')st.push(i);
+		else if(s[i]==')'){
+			int x = st.top();st.pop();
+			if( x - 1 >= 0 && s[x-1]=='-'){
+				for(int j = x + 1 ; j < i ; j++){
+					if(s[j] =='+')s[j] ='-';
+					else if(s[j] =='-')s[j] = '+';
+				}
+			}
+		}
+	}
+	for(auto x :s){
+		if( x != '(' && x != ')')cout<<x;
+	}
+	cout<<"\n";
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+   int t;
+   cin >>t;
+   while(t--)solve();
+}
