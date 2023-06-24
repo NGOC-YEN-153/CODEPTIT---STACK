@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include<set>
+#include<string>
+#include<stack>
+using namespace std;
+#define ii pair<int,int>
+vector<vector<int>> storeid; // vector luu cac vector vi tri(pair)  muon xoa
+vector<ii> v; //vector luu cac pair ( vi tri dau va cuoi cua cac dau ngoac (pair) ) 
+set<string>ketqua; //vector ketqua
+inline void back( int i ,int n , int k , int pre,vector<int> res){ //to hop
+	for(int j= pre + 1 ; j<= n - k + i ; j++){
+		res.push_back(j) ;
+		if( i == k) storeid.push_back(res);
+		else if( i < k)back( i+1 , n , k ,j , res);
+		res.pop_back();
+	}
+}
+inline void add(string s , vector<int> res){ // thuc hien xoa cac cap ngoac muon xoa , sau do push vao vector ketqua
+	string tmp;
+	for(auto x :res){
+		int x1 = v[x].first , x2 = v[x].second;
+		s[x1] = '#' ; s[x2] = '#'; // dung # de the hien ngoac da bi xoa
+	}
+	for(auto x : s)if( x != '#')tmp += x;
+	ketqua.insert(tmp);
+}
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(NULL);cout.tie(NULL);
+   string s;
+	cin >> s;
+	stack<int> st;
+	for(int i = 0 ;i< s.size(); i++){
+		if( s[i] == '(')st.push(i);
+		else  if( s[i] == ')'){
+			if( st.size() && s[st.top()] =='(')v.push_back({ st.top() , i }) , st.pop();
+		}
+	}
+	int n = v.size();
+	vector<int>res;
+	for(int i = 1 ; i <= v.size() ; i++ )back(0 , n - 1 , i - 1 , -1 , res); // minh quay lui to hop tu chi so 0 toi n-1 nen tham so truyen vao hoi la
+	for(auto x : storeid){
+		add(s , x);
+	}
+	for(auto x:ketqua)cout<<x<<"\n";
+}
