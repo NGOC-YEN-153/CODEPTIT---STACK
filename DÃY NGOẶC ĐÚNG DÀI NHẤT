@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+void solve(){
+	string s;
+	cin >>s;
+	stack<int> st;
+	for(int i=0 ;i< s.size() ; i++){
+		if( s[i] == '(')st.push(i);
+		else {
+			if( st.size()  && s[st.top()] == '('){
+				s[i] = s[st.top()] = '#' ;
+				st.pop();
+			}
+			else st.push(i);
+		}
+	}
+	int ans = 0;
+	for(int i=0 ; i< s.size() ;i++){
+		if(s[i] == '#'){
+			int cnt = 1 ;
+			for(int j = i+1 ; j< s.size(); j++){
+				if(s[j] == '#')cnt ++ , i =j;
+				else {
+					i = j - 1;
+					break;
+				}
+			}
+			ans = max(ans , cnt);
+		}
+	}
+	cout<<ans<<"\n";
+}
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(NULL); cout.tie(NULL);
+   int t;
+   cin >>t;
+   
+   while(t--)solve();
+}
