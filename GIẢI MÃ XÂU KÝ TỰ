@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+string s;
+void solve(){
+    cin >> s;
+    stack<string> st;
+    for(int i = 0 ; i< s.size() ; i++){
+        if(s[i] == ']'){//123
+            vector<string> res;
+            while(st.size() && st.top() != "[")res.push_back(st.top()),st.pop();
+            st.pop();
+            reverse(res.begin() , res.end());
+            if(st.size() && isdigit(st.top()[0])){
+                int t = stoi(st.top());
+                string ans;
+                while(t--){
+                	for(auto x : res)ans+=x;
+				}
+                st.pop();
+                st.push(ans);
+            }
+            else {
+            	string x ;
+            	for(auto j : res)x+=j;
+            	st.push(x);
+			}
+        }
+        else if(s[i] == '[')st.push("[");
+        else if(isdigit(s[i])){
+            string res;
+            for(int j = i ; j< s.size() ; j++ ){
+                if(isdigit(s[j]))res+=s[j] , i = j;
+                else break;
+            }
+            st.push(res);
+        }
+        else {
+            string res;
+            for(int j = i ; j< s.size() ; j++ ){
+                if(isalpha(s[j]))res+=s[j] , i = j;
+                else break;
+            }
+            st.push(res);
+        }
+    }
+    stack<string>ans;
+    while(st.size())ans.push(st.top()) , st.pop();
+    while(ans.size())cout<<ans.top(),ans.pop();
+    cout<<endl;
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    int t = 1;
+    cin >> t;
+    while(t--)solve();
+}
