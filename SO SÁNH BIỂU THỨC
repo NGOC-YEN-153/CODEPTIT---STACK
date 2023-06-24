@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+void solve(){
+	string s;
+	cin >>s ;
+	stack<int> st;
+	for(int i =0 ; i< s.size(); i++){
+		if(s[i] =='(')st.push(i);
+		else if(s[i]==')'){
+			int x = st.top();st.pop();
+			if( x - 1 >= 0 && s[x-1]=='-'){
+				for(int j = x + 1 ; j < i ; j++){
+					if(s[j] =='+')s[j] ='-';
+					else if(s[j] =='-')s[j] = '+';
+				}
+			}
+		}
+	}
+	string t;
+	cin >> t;
+	stack<int> st2;
+	for(int i =0 ; i< t.size(); i++){
+		if(t[i] =='(')st2.push(i);
+		else if(t[i]==')'){
+			int x = st2.top();st2.pop();
+			if( x - 1 >= 0 && t[x-1]=='-'){
+				for(int j = x + 1 ; j < i ; j++){
+					if(t[j] =='+')t[j] ='-';
+					else if(t[j] =='-')t[j] = '+';
+				}
+			}
+		}
+	}
+	string res1,res2;
+	for(auto x: s)if(x != '(' && x!= ')')res1+=x;
+	for(auto x: t)if(x != '(' && x!= ')')res2+=x;
+	if(res1==res2)cout<<"YES";
+	else cout<<"NO";
+	cout<<endl;
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+   int t;
+   cin >>t;
+   while(t--)solve();
+}
+
+
+
