@@ -1,0 +1,21 @@
+#include<iostream>
+#include<stack>
+#include<deque>
+#include<string>
+int main()
+{
+   std:: ios_base::sync_with_stdio(false);
+  std::  cin.tie(NULL); std::cout.tie(NULL);
+    std::string s ;
+	std::cin >> s;
+	std::stack<char>st2;
+	std::deque<char> st1;
+	for(int i = 0 ;  i< s.size() ; i++){
+		if(s[i] == '>' && st2.size())st1.push_back(st2.top()) , st2.pop();
+		else if(s[i] =='<' && st1.size())st2.push(st1.back()) , st1.pop_back();
+		else if( s[i] == '-' && st1.size())st1.pop_back();
+		else  if(isdigit(s[i]) || isalpha(s[i]))st1.push_back(s[i]);
+	}
+	while(st1.size())std::cout<<st1.front() , st1.pop_front();
+	while(st2.size())std::cout<<st2.top() , st2.pop() ;	
+}
